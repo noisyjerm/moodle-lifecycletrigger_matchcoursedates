@@ -59,10 +59,16 @@ class matchcoursedates extends base_automatic {
      * @throws \dml_exception
      */
     public function get_course_recordset_where($triggerid) {
-        $where = "{course}.startdate > :earliest AND {course}.enddate < :latest";
+        $where = "{course}.startdate > :earlieststart AND {course}.startdate < :lateststart";
+        $checkenddate = settings_manager::get_settings($triggerid, settings_type::TRIGGER)['checkenddates'] && true;
+        if ($checkenddate) {
+            $where .= " AND {course}.enddate > :earliestend AND {course}.enddate < :latestend";
+        }
         $params = array(
-            "earliest" => settings_manager::get_settings($triggerid, settings_type::TRIGGER)['earliest'],
-            "latest" => settings_manager::get_settings($triggerid, settings_type::TRIGGER)['latest'],
+            "earlieststart" => settings_manager::get_settings($triggerid, settings_type::TRIGGER)['earlieststart'],
+            "lateststart" => settings_manager::get_settings($triggerid, settings_type::TRIGGER)['lateststart'] + 86400,
+            "earliestend" => settings_manager::get_settings($triggerid, settings_type::TRIGGER)['earliestend'],
+            "latestend" => settings_manager::get_settings($triggerid, settings_type::TRIGGER)['latestend'] + 86400,
         );
         return array($where, $params);
     }
@@ -81,8 +87,11 @@ class matchcoursedates extends base_automatic {
      */
     public function instance_settings() {
         return array(
-            new instance_setting('earliest', PARAM_INT, true),
-            new instance_setting('latest', PARAM_INT, true),
+            new instance_setting('earlieststart', PARAM_INT, true),
+            new instance_setting('lateststart', PARAM_INT, true),
+            new instance_setting('checkenddates', PARAM_BOOL, true),
+            new instance_setting('earliestend', PARAM_INT, true),
+            new instance_setting('latestend', PARAM_INT, true),
         );
     }
 
@@ -92,11 +101,24 @@ class matchcoursedates extends base_automatic {
      * @throws \coding_exception
      */
     public function extend_add_instance_form_definition($mform) {
-        $mform->addElement('date_selector', 'earliest', get_string('earliest', 'lifecycletrigger_matchcoursedates'));
-        $mform->addHelpButton('earliest', 'earliest', 'lifecycletrigger_matchcoursedates');
+        $element = 'earlieststart';
+        $mform->addElement('date_selector', $element, get_string($element, 'lifecycletrigger_matchcoursedates'));
+        $mform->addHelpButton('earlieststart', 'earlieststart', 'lifecycletrigger_matchcoursedates');
+        $element = 'lateststart';
+        $mform->addElement('date_selector', $element, get_string($element, 'lifecycletrigger_matchcoursedates'));
 
-        $mform->addElement('date_selector', 'latest', get_string('latest', 'lifecycletrigger_matchcoursedates'));
-        $mform->addHelpButton('latest', 'latest', 'lifecycletrigger_matchcoursedates');
+        $element = 'checkenddates';
+        $mform->addElement('advcheckbox', $element, get_string($element, 'lifecycletrigger_matchcoursedates'));
+        $mform->setType($element, PARAM_BOOL);
+        $mform->setDefault($element, false);
+
+        $element = 'earliestend';
+        $mform->addElement('date_selector', $element, get_string($element, 'lifecycletrigger_matchcoursedates'));
+        $mform->addHelpButton($element, $element, 'lifecycletrigger_matchcoursedates');
+        $mform->hideIf($element, 'checkenddates');
+        $element = 'latestend';
+        $mform->addElement('date_selector', $element, get_string($element, 'lifecycletrigger_matchcoursedates'));
+        $mform->hideIf($element, 'checkenddates');
     }
 
 }

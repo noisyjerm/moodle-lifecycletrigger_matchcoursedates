@@ -22,11 +22,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Match-Kurstermin - Trigger';
-$string['privacy:metadata'] = 'Dieses Subplugin speichert keine persönlichen Daten.';
+$string['pluginname']         = 'Match-Kurstermin - Trigger';
+$string['privacy:metadata']   = 'Dieses Subplugin speichert keine persönlichen Daten.';
 
-$string['earliest'] = 'Frühester Starttermin.';
-$string['earliest_help'] = 'Der Trigger wird aufgerufen, wenn das Startdatum des Kurses nach diesem Datum und
-                            das Enddatum des Kurses vor dem spätesten Enddatum liegt.';
-$string['latest'] = 'Spätestes Enddatum';
-$string['latest_help'] = 'Kurse ohne Enddatum verhalten sich so, als wäre das Enddatum der 1. Januar 1970.';
+$string['earlieststart']      = 'Frühester Starttermin.';
+$string['earlieststart_help'] = 'Der Trigger wird ausgelöst, wenn das Datum des Kursbeginns zwischen 0000h am
+                                 frühesten dem frühesten Startdatum und 2400h dem spätesten Startdatum liegt.';
+$string['lateststart']        = 'Spätester Starttermin.';
+$string['checkenddates']      = 'Enddatum vergleichen.';
+$string['earliestend']        = 'Frühestes Enddatum.';
+$string['earliestend_help']   = 'Der Trigger wird ausgelöst, wenn das Enddatum des Kurses ebenfalls zwischen 0000h am frühesten Enddatum und 2400h
+                                 für das späteste Enddatum liegt. Kurse ohne Enddatum verhalten sich so, als ob das Enddatum 0000h 1. Januar 1970 wäre.';
+$string['latestend']          = 'Spätestes Enddatum.';

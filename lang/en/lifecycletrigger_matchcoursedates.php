@@ -22,11 +22,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Match course date';
-$string['privacy:metadata'] = 'This subplugin does not store any personal data.';
+$string['pluginname']         = 'Match course date';
+$string['privacy:metadata']   = 'This subplugin does not store any personal data.';
 
-$string['earliest'] = 'Earliest start date.';
-$string['earliest_help'] = 'The trigger will be invoked if the course start date is after this
-                            date and the course end date is before the Latest end date.';
-$string['latest'] = 'Latest end date';
-$string['latest_help'] = 'Courses with no end date behave as if the end date is 1 January 1970.';
+$string['earlieststart']      = 'Earliest start date.';
+$string['earlieststart_help'] = 'The trigger will be invoked if the course start date is between 0000h on the earliest
+                                  start date and 2400h on the latest start date.';
+$string['lateststart']        = 'Latest start date.';
+$string['checkenddates']      = 'Compare end date.';
+$string['earliestend']        = 'Earliest end date.';
+$string['earliestend_help']   = 'The trigger will be invoked if the course end date is also between 0000h on the earliest end date and
+                                 2400h on the latest end date. Courses with no end date behave as if the end date is 0000h 1 January 1970.';
+$string['latestend']          = 'Latest end date';
